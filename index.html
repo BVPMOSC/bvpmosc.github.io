@@ -192,13 +192,13 @@
   <script type="text/javascript">
   $('.ui .form').submit(function(e){
     e.preventDefault()
-    if( $('.form').form('is valid') == true )
+    if( $('.form').form('is valid') == true ){
         $('#submitForm').addClass('disabled')
         name = $('input[name="name"]').val()
         email = $('input[name="email"]').val()
         github = $('input[name="github"]').val()
         writeUserData(name, email, github)
-
+    }
   })
 
     $(document)
