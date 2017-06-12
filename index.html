@@ -147,7 +147,7 @@
         <div class="ui huge primary button">Learn More <i class="down arrow icon"></i></div>
       </div>
       <div class="seven wide column">
-          <div class="ui positive message">
+          <div class="ui positive message hidden" id="mess">
               <div class="header">
                 Your user registration is successful.
               </div>
@@ -172,7 +172,7 @@
                   <input type="url" name="github" placeholder="Github Profile">
                 </div>
               </div>
-              <div class="ui fluid large teal submit button">Count me in <i class="right arrow icon"></i></div>
+              <div id="submitForm" class="ui fluid large teal submit button">Count me in <i class="right arrow icon"></i></div>
             </div>
           </form>
       </div>
@@ -186,6 +186,17 @@
   <script type="text/javascript" src="semantic.min.js"></script>
 
   <script type="text/javascript">
+  $('.ui .form').submit(function(e){
+    e.preventDefault()
+    if( $('.form').form('is valid') == true )
+        $('#submitForm').addClass('disabled')
+        name = $('input[name="name"]').val()
+        email = $('input[name="email"]').val()
+        github = $('input[name="github"]').val()
+        writeUserData(name, email, github)
+
+  })
+
     $(document)
     .ready(function() {
       $('.ui.form')
@@ -204,7 +215,7 @@
                 }
               ]
             },
-            password: {
+            name: {
               identifier  : 'name',
               rules: [
                 {
@@ -215,18 +226,15 @@
             }
           }
         })
-      ;
     })
   ;
-    $('.ui.form').submit(function(e){ 
-        e.preventDefault();
-        alert('called')
-        name = $('input[name="name"]').val()
-        email = $('input[name="email"]').val()
-        github = $('input[name="github"]').val()
-        writeUserData(name, email, github)
-    });
 
+        // }, {
+        //     onSuccess: function(e){ 
+
+        //         console.log('sd')
+        //         
+        //     }
   </script>
 
 
@@ -253,6 +261,9 @@
         name: name,
         email: email,
         github : github
+      },
+      function(){
+        $('#mess').removeClass('hidden')
       });
     }
   </script>
