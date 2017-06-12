@@ -101,36 +101,6 @@
 
 
   </style>
-
-  <script src="assets/library/jquery.min.js"></script>
-  <script src="../dist/components/visibility.js"></script>
-  <script src="../dist/components/sidebar.js"></script>
-  <script src="../dist/components/transition.js"></script>
-  <script>
-  $(document)
-    .ready(function() {
-
-      // fix menu when passed
-      $('.masthead')
-        .visibility({
-          once: false,
-          onBottomPassed: function() {
-            $('.fixed.menu').transition('fade in');
-          },
-          onBottomPassedReverse: function() {
-            $('.fixed.menu').transition('fade out');
-          }
-        })
-      ;
-
-      // create sidebar and attach to menu open
-      $('.ui.sidebar')
-        .sidebar('attach events', '.toc.item')
-      ;
-
-    })
-  ;
-  </script>
 </head>
 <body>
 
@@ -177,8 +147,13 @@
         <div class="ui huge primary button">Learn More <i class="down arrow icon"></i></div>
       </div>
       <div class="seven wide column">
-         <form style="margin-top:50px" class="ui large form">
-            <div class="ui stacked segment">
+          <div class="ui positive message">
+              <div class="header">
+                Your user registration is successful.
+              </div>
+          </div>
+         <form style="margin-top:50px" class="ui form attached fluid segment">
+            <div class="ui ">
               <div class="field">
                 <div class="ui left icon input">
                   <i class="user icon"></i>
@@ -194,7 +169,7 @@
               <div class="field">
                 <div class="ui left icon input">
                   <i class="github icon"></i>
-                  <input type="url" name="profile" placeholder="Github Profile">
+                  <input type="url" name="github" placeholder="Github Profile">
                 </div>
               </div>
               <div class="ui fluid large teal submit button">Count me in <i class="right arrow icon"></i></div>
@@ -233,7 +208,7 @@
               identifier  : 'name',
               rules: [
                 {
-                  type   : 'text',
+                  type   : 'empty',
                   prompt : 'Please enter your name'
                 }
               ]
@@ -243,7 +218,43 @@
       ;
     })
   ;
+    $('.ui.form').submit(function(e){ 
+        e.preventDefault();
+        alert('called')
+        name = $('input[name="name"]').val()
+        email = $('input[name="email"]').val()
+        github = $('input[name="github"]').val()
+        writeUserData(name, email, github)
+    });
 
+  </script>
+
+
+  <!-- Firebase Portion -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-messaging.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCY6ZkAsb-CTT2mEu-J4FeaeF90USDCU7k",
+      authDomain: "learning-5e04c.firebaseapp.com",
+      databaseURL: "https://learning-5e04c.firebaseio.com",
+      projectId: "learning-5e04c",
+      storageBucket: "learning-5e04c.appspot.com",
+      messagingSenderId: "627769457667"
+    };
+    firebase.initializeApp(config);
+
+    function writeUserData(name, email, github) {
+      firebase.database().ref('forms').push().set({
+        name: name,
+        email: email,
+        github : github
+      });
+    }
   </script>
 </body>
 
