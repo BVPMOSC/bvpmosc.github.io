@@ -180,6 +180,12 @@
                   <input type="url" name="github" placeholder="Github Profile">
                 </div>
               </div>
+               <div class="field">
+                <div class="ui left icon input">
+                  <i class="mobile icon"></i>
+                  <input type="text" name="phone" placeholder="Phone Number">
+                </div>
+              </div>
               <div id="submitForm" class="ui fluid large teal submit button">Count me in <i class="right arrow icon"></i></div>
             </div>
           </form>
@@ -201,7 +207,8 @@
         name = $('input[name="name"]').val()
         email = $('input[name="email"]').val()
         github = $('input[name="github"]').val()
-        writeUserData(name, email, github)
+        phone = $('input[name="phone"]').val()
+        writeUserData(name, email, github, phone)
     }
   })
 
@@ -231,8 +238,17 @@
                   prompt : 'Please enter your name'
                 }
               ]
+            },
+            phone: {
+              identifier  : 'phone',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your phone'
+                }
+              ]
             }
-          }
+          },
         })
     })
   ;
@@ -264,11 +280,12 @@
     };
     firebase.initializeApp(config);
 
-    function writeUserData(name, email, github) {
+    function writeUserData(name, email, github, phone) {
       firebase.database().ref('forms').push().set({
         name: name,
         email: email,
-        github : github
+        github : github,
+        phone: phone
       },
       function(){
         $('#mess').removeClass('hidden')
