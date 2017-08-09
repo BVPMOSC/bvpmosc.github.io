@@ -282,13 +282,13 @@
 
     function writeUserData(name, email, github, phone) {
       var today = new Date();
-      var todayDate = today.getDate();
+      
       firebase.database().ref('forms').push().set({
         name: name,
         email: email,
         github : github,
         phone: phone,
-        date: todayDate ,
+        date: today.toString() ,
       },
       function(){
         $('#mess').removeClass('hidden')
